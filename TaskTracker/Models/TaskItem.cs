@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TaskTracker
+namespace TaskTracker.Models
 {
     internal class TaskItem
     {
