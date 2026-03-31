@@ -5,6 +5,7 @@ using TaskTracker.Models;
 using Newtonsoft.Json;
 using TaskTracker.Utilities;
 using System.IO;
+using TaskTracker.Enums;
 
 namespace TaskTracker.Services
 {
@@ -44,6 +45,16 @@ namespace TaskTracker.Services
             if(task != null)
             {
                 tasks.Remove(task);
+            }
+        }
+
+        public void UpdateTaskStatus(int id, Status newStatus)
+        {
+            TaskItem task = tasks.Find(t => t.Id == id);
+            if(task != null)
+            {
+                task.Status = newStatus;
+                task.UpdateDate = DateTime.Now;
             }
         }
 

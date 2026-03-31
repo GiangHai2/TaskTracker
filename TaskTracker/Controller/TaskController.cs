@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TaskTracker.Services;
 using TaskTracker.Views;
+using TaskTracker.Utilities;
 
 namespace TaskTracker.Controller
 {
@@ -26,7 +27,7 @@ namespace TaskTracker.Controller
                 switch (choice)
                 {
                     case "1":
-                        String task = taskView.GetInput("Enter task details (Description,Status): ");
+                        String task = taskView.GetInput("Enter task details Description: ");
                         taskServices.AddTask(task);
                         break;
                     case "2":
@@ -47,6 +48,11 @@ namespace TaskTracker.Controller
                         taskServices.DeleteTask(idToDelete);
                         break;
                     case "5":
+                        int idToUpdateStatus = int.Parse(taskView.GetInput("Enter task Id to update status: "));
+                        String newStatus = taskView.DisplayUpdateStatusMessage();
+                        taskServices.UpdateTaskStatus(idToUpdateStatus, new Utility().GetStatus(newStatus));
+                        break;
+                    case "6":
                         taskServices.SaveTasks();
                         return;
                     default:

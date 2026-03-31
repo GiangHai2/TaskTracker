@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TaskTracker.Enums;
 
 namespace TaskTracker.Models
 {
@@ -10,7 +11,7 @@ namespace TaskTracker.Models
         
         public String Description { get; set; }
 
-        public String Status { get; set; }
+        public Status Status { get; set; }
 
         public DateTime StartDate { get; set; }
 
