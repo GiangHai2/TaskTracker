@@ -6,18 +6,19 @@ namespace TaskTracker.Views
 {
     internal class TaskView
     {
-        public void DisplayMenu()
+        public void ShowHelp() 
         {
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine("------ Task Tracker ---");
-            Console.WriteLine("1. Add Task");
-            Console.WriteLine("2. View Tasks");
-            Console.WriteLine("3. Update Task");
-            Console.WriteLine("4. Delete Task");
-            Console.WriteLine("5. Update Task Status");
-            Console.WriteLine("6. Exit");
-            Console.Write("Select an option: ");
-            Console.ResetColor();
+            Console.WriteLine("\n=== TASK TRACKER CLI ===");
+            Console.WriteLine("Cách sử dụng: task-cli <lệnh> [tham số]");
+            Console.WriteLine("\nDanh sách các lệnh:");
+            Console.WriteLine("  add \"<mô tả>\"               - Thêm công việc mới");
+            Console.WriteLine("  update <id> \"<mô tả mới>\"   - Cập nhật công việc");
+            Console.WriteLine("  delete <id>                 - Xóa công việc");
+            Console.WriteLine("  mark-in-progress <id>       - Đánh dấu trạng thái 'đang làm'");
+            Console.WriteLine("  mark-done <id>              - Đánh dấu trạng thái 'đã xong'");
+            Console.WriteLine("  list                        - Hiển thị tất cả công việc");
+            Console.WriteLine("  list <status>               - Lọc công việc (todo, in-progress, done)");
+            Console.WriteLine("\nVí dụ: task-cli add \"Học lập trình C#\"");
         }
 
         public String GetInput(String input)

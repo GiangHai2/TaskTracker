@@ -8,13 +8,13 @@ namespace TaskTracker.Utilities
 {
     internal class Utility
     {
-        public TaskItem GetTask(String task, int countTasks)
+        public TaskItem GetTask(String description, int countTasks)
         {
             
             return new TaskItem
             {
                 Id = countTasks + 1,
-                Description = task.Trim(),
+                Description = description.Trim(),
                 Status = Status.Todo,
                 StartDate = DateTime.Now,
                 UpdateDate = DateTime.Now

@@ -8,9 +8,10 @@ namespace TaskTracker
     {
         static void Main(string[] args)
         {
+
             TaskServices services = new TaskServices();
             TaskController controller = new TaskController(services, new TaskView());
-            controller.Run();
+            controller.Run(args);
         }
     }
 }

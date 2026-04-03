@@ -18,19 +18,23 @@ namespace TaskTracker.Controller
             taskView = v;
         }
 
-        public void Run()
+        public void Run(String[] command)
         {
             while (true)
             {
-                taskView.DisplayMenu();
-                String choice = taskView.GetInput("");
+                if(command.Length == 0 || command[0] == "help") { 
+                    taskView.ShowHelp();
+                    command = taskView.GetInput("Enter command: ").Split(' ');
+                    continue;
+                }
+                String choice = command[0];
                 switch (choice)
                 {
-                    case "1":
+                    case "add":
                         String task = taskView.GetInput("Enter task details Description: ");
                         taskServices.AddTask(task);
                         break;
-                    case "2":
+                    case "list":
                         taskView.DisPlayMessage("--------Tasks--------");
                         var tasks = taskServices.GetTasks();
                         foreach (var t in tasks)
@@ -38,12 +42,12 @@ namespace TaskTracker.Controller
                             taskView.DisPlayMessage($"Id: {t.Id}, Description: {t.Description}, Status: {t.Status}, Start Date: {t.StartDate}, Update Date: {t.UpdateDate}");
                         }
                         break;
-                    case "3":
+                    case "update":
                         int idToUpdate = int.Parse(taskView.GetInput("Enter task Id to update: "));
                         String newDescription = taskView.GetInput("Enter new description: ");
                         taskServices.UpdateTask(idToUpdate, newDescription);
                         break;
-                    case "4":
+                    case "delete":
                         int idToDelete = int.Parse(taskView.GetInput("Enter task Id to delete: "));
                         taskServices.DeleteTask(idToDelete);
                         break;
@@ -60,6 +64,7 @@ namespace TaskTracker.Controller
                         break;
                 }
             }
+
         }
     }
 }
