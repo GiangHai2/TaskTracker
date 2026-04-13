@@ -8,26 +8,32 @@ namespace TaskTracker.Utilities
 {
     internal class Utility
     {
-        public TaskItem GetTask(String description, int countTasks)
+        public TaskItem GetTask(String description, int id)
         {
             
             return new TaskItem
             {
-                Id = countTasks + 1,
-                Description = description.Trim(),
+                Id = id,
+                Description = description?.Trim(),
                 Status = Status.Todo,
-                StartDate = DateTime.Now,
-                UpdateDate = DateTime.Now
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
         }
 
         public Status GetStatus(String status)
         {
+            if (string.IsNullOrWhiteSpace(status)) throw new ArgumentException("Invalid status option");
+            status = status.Trim().ToLowerInvariant();
             return status switch
             {
                 "1" => Status.Todo,
+                "todo" => Status.Todo,
                 "2" => Status.InProgress,
+                "inprogress" => Status.InProgress,
+                "in-progress" => Status.InProgress,
                 "3" => Status.Done,
+                "done" => Status.Done,
                 _ => throw new ArgumentException("Invalid status option")
             };
         }

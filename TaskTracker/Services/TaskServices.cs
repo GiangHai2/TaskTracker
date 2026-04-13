@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using TaskTracker.Models;
-using Newtonsoft.Json;
+using System.Text.Json;
 using TaskTracker.Utilities;
 using System.IO;
 using TaskTracker.Enums;
+using System.Linq;
 
 namespace TaskTracker.Services
 {
@@ -14,14 +15,19 @@ namespace TaskTracker.Services
         private List<TaskItem> tasks;
         private String filePath = "tasks.json";
 
-        public TaskServices() 
+        public TaskServices()
         {
             tasks = LoadTasks();
         }
 
-        public void AddTask(String task)
+        public TaskItem AddTask(String task)
         {
-            tasks.Add(new Utility().GetTask(task, tasks.Count));
+            int nextId = (tasks != null && tasks.Count > 0) ? tasks.Max(t => t.Id) + 1 : 1;
+            var util = new Utility();
+            var item = util.GetTask(task, nextId);
+            tasks.Add(item);
+            SaveTasks();
+            return item;
         }
 
         public List<TaskItem> GetTasks()
@@ -32,46 +38,51 @@ namespace TaskTracker.Services
         public void UpdateTask(int id, String newDescription)
         {
             TaskItem task = tasks.Find(t => t.Id == id);
-            if(task != null)
+            if (task != null)
             {
                 task.Description = newDescription;
-                task.UpdateDate = DateTime.Now;
+                task.UpdatedAt = DateTime.Now;
+                SaveTasks();
             }
         }
 
         public void DeleteTask(int id)
         {
             TaskItem task = tasks.Find(t => t.Id == id);
-            if(task != null)
+            if (task != null)
             {
                 tasks.Remove(task);
+                SaveTasks();
             }
         }
 
         public void UpdateTaskStatus(int id, Status newStatus)
         {
             TaskItem task = tasks.Find(t => t.Id == id);
-            if(task != null)
+            if (task != null)
             {
                 task.Status = newStatus;
-                task.UpdateDate = DateTime.Now;
+                task.UpdatedAt = DateTime.Now;
+                SaveTasks();
             }
         }
 
         public void SaveTasks()
         {
-            String json = JsonConvert.SerializeObject(tasks, Formatting.Indented);
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            String json = JsonSerializer.Serialize(tasks, options);
             File.WriteAllText(filePath, json);
         }
 
-        private List<TaskItem> LoadTasks() 
+        private List<TaskItem> LoadTasks()
         {
-            if(!File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 return new List<TaskItem>();
             }
             String json = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<List<TaskItem>>(json);
+            if (string.IsNullOrWhiteSpace(json)) return new List<TaskItem>();
+            return JsonSerializer.Deserialize<List<TaskItem>>(json) ?? new List<TaskItem>();
         }
 
     }

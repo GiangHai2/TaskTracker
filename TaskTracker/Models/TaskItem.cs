@@ -12,9 +12,10 @@ namespace TaskTracker.Models
         public String Description { get; set; }
 
         public Status Status { get; set; }
+        // CreatedAt corresponds to when the task was created
+        public DateTime CreatedAt { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime UpdateDate {  get; set; }
+        // UpdatedAt corresponds to when the task was last updated
+        public DateTime UpdatedAt { get; set; }
     }
 }
